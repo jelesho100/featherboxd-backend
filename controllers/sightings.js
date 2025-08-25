@@ -1,14 +1,14 @@
 const express = require('express');
 const verifyToken = require('../middleware/verify-token.js');
-const Hoot = require('../models/hoot.js');
+const Sighting = require('../models/sighting.js');
 const router = express.Router();
 
 router.post('/', verifyToken, async (req, res) => {
   try {
     req.body.author = req.user._id;
-    const hoot = await Hoot.create(req.body);
-    hoot._doc.author = req.user;
-    res.status(201).json(hoot);
+    const sighting = await Sighting.create(req.body);
+    sighting._doc.author = req.user;
+    res.status(201).json(sighting);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -16,79 +16,79 @@ router.post('/', verifyToken, async (req, res) => {
 
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const hoots = await Hoot.find({})
+    const sightings = await Sighting.find({})
       .populate('author')
       .sort({ createdAt: 'desc' });
-    res.status(200).json(hoots);
+    res.status(200).json(sightings);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-router.get('/:hootId', verifyToken, async (req, res) => {
+router.get('/:sightingId', verifyToken, async (req, res) => {
   try {
-    // populate author of hoot and comments
-    const hoot = await Hoot.findById(req.params.hootId).populate([
+    // populate author of sighting and comments
+    const sighting = await Sighting.findById(req.params.sightingId).populate([
       'author',
       'comments.author',
     ]);
-    res.status(200).json(hoot);
+    res.status(200).json(sighting);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
 });
 
-router.put('/:hootId', verifyToken, async (req, res) => {
+router.put('/:sightingId', verifyToken, async (req, res) => {
   try {
-    // Find the hoot:
-    const hoot = await Hoot.findById(req.params.hootId);
+    // Find the sighting:
+    const sighting = await Sighting.findById(req.params.sightingId);
 
     // Check permissions:
-    if (!hoot.author.equals(req.user._id)) {
+    if (!sighting.author.equals(req.user._id)) {
       return res.status(403).send("You're not allowed to do that!");
     }
 
-    // Update hoot:
-    const updatedHoot = await Hoot.findByIdAndUpdate(
-      req.params.hootId,
+    // Update sighting:
+    const updatedSighting = await Sighting.findByIdAndUpdate(
+      req.params.sightingId,
       req.body,
       { new: true }
     );
 
     // Append req.user to the author property:
-    updatedHoot._doc.author = req.user;
+    updatedSighting._doc.author = req.user;
 
     // Issue JSON response:
-    res.status(200).json(updatedHoot);
+    res.status(200).json(updatedSighting);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-router.delete('/:hootId', verifyToken, async (req, res) => {
+router.delete('/:sightingId', verifyToken, async (req, res) => {
   try {
-    const hoot = await Hoot.findById(req.params.hootId);
+    const sighting = await Sighting.findById(req.params.sightingId);
 
-    if (!hoot.author.equals(req.user._id)) {
+    if (!sighting.author.equals(req.user._id)) {
       return res.status(403).send("You're not allowed to do that!");
     }
 
-    const deletedHoot = await Hoot.findByIdAndDelete(req.params.hootId);
-    res.status(200).json(deletedHoot);
+    const deletedSighting = await Sighting.findByIdAndDelete(req.params.sightingId);
+    res.status(200).json(deletedSighting);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-router.post('/:hootId/comments', verifyToken, async (req, res) => {
+router.post('/:sightingId/comments', verifyToken, async (req, res) => {
   try {
     req.body.author = req.user._id;
-    const hoot = await Hoot.findById(req.params.hootId);
-    hoot.comments.push(req.body);
-    await hoot.save();
+    const sighting = await Sighting.findById(req.params.sightingId);
+    sighting.comments.push(req.body);
+    await sighting.save();
 
     // Find the newly created comment:
-    const newComment = hoot.comments[hoot.comments.length - 1];
+    const newComment = sighting.comments[sighting.comments.length - 1];
 
     newComment._doc.author = req.user;
 
@@ -99,10 +99,10 @@ router.post('/:hootId/comments', verifyToken, async (req, res) => {
   }
 });
 
-router.put('/:hootId/comments/:commentId', verifyToken, async (req, res) => {
+router.put('/:sightingId/comments/:commentId', verifyToken, async (req, res) => {
   try {
-    const hoot = await Hoot.findById(req.params.hootId);
-    const comment = hoot.comments.id(req.params.commentId);
+    const sighting = await Sighting.findById(req.params.sightingId);
+    const comment = sighting.comments.id(req.params.commentId);
 
     // ensures the current user is the author of the comment
     if (comment.author.toString() !== req.user._id) {
@@ -112,17 +112,17 @@ router.put('/:hootId/comments/:commentId', verifyToken, async (req, res) => {
     }
 
     comment.text = req.body.text;
-    await hoot.save();
+    await sighting.save();
     res.status(200).json({ message: 'Comment updated successfully' });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
 });
 
-router.delete('/:hootId/comments/:commentId', verifyToken, async (req, res) => {
+router.delete('/:sightingId/comments/:commentId', verifyToken, async (req, res) => {
   try {
-    const hoot = await Hoot.findById(req.params.hootId);
-    const comment = hoot.comments.id(req.params.commentId);
+    const sighting = await Sighting.findById(req.params.sightingId);
+    const comment = sighting.comments.id(req.params.commentId);
 
     // ensures the current user is the author of the comment
     if (comment.author.toString() !== req.user._id) {
@@ -131,8 +131,8 @@ router.delete('/:hootId/comments/:commentId', verifyToken, async (req, res) => {
         .json({ message: 'You are not authorized to edit this comment' });
     }
 
-    hoot.comments.remove({ _id: req.params.commentId });
-    await hoot.save();
+    sighting.comments.remove({ _id: req.params.commentId });
+    await sighting.save();
     res.status(200).json({ message: 'Comment deleted successfully' });
   } catch (err) {
     res.status(500).json({ err: err.message });
