@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const verifyToken = require('../middleware/verify-token')
+
 
 const saltRounds = 12;
 
@@ -55,4 +57,10 @@ router.post('/sign-in', async (req, res) => {
   }
 });
 
-module.exports = router;
+
+// verify route
+router.get('/verify', verifyToken, (req, res) => {
+  res.json(req.user)
+})
+
+module.exports = router
