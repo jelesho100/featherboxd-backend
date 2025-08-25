@@ -34,7 +34,7 @@ const sightingSchema = new mongoose.Schema(
     category: {
       type: String,
       required: false,
-      enum: ['Big Bird', 'Little Bird'], //ask what the catregory of brids are
+      enum: ['Waterfowl', 'Perching', 'Raptors', 'other'],
     },
       comments: [commentSchema],
       ratings: [ratingSchema],
