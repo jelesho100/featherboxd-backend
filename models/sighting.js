@@ -12,7 +12,7 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ratingSchema = new mongoose.Schema( //ask what goes in ratingSchema
+const ratingSchema = new mongoose.Schema( 
 
 );
 
