@@ -12,7 +12,7 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ratingSchema = new mongoose.Schema( //ask what goes in ratingSchema
+const ratingSchema = new mongoose.Schema( 
 
 );
 
@@ -34,7 +34,7 @@ const sightingSchema = new mongoose.Schema(
     category: {
       type: String,
       required: false,
-      enum: ['Big Bird', 'Little Bird'], //ask what the catregory of brids are
+      enum: ['Waterfowl', 'Perching', 'Raptors', 'other'],
     },
       comments: [commentSchema],
       ratings: [ratingSchema],
