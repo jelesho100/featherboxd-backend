@@ -43,7 +43,7 @@ const sightingSchema = new mongoose.Schema(
     category: {
       type: String,
       required: false,
-      enum: ['Waterfowl', 'Perching', 'Raptors', 'other'],
+      enum: ['Waterfowl', 'Perching', 'Raptors', 'Other'],
     },
     comments: [commentSchema],
     ratings: [ratingSchema],
