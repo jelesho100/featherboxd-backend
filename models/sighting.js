@@ -11,14 +11,13 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ratingSchema = new mongoose.Schema(
+const likeSchema = new mongoose.Schema(
   {
-    stars: {
+    like: {
       type: Number,
-      min: 1,
-      max: 5,
+      
     },
-    rater: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   },
   { timestamps: true }
 
@@ -46,7 +45,6 @@ const sightingSchema = new mongoose.Schema(
       enum: ['Waterfowl', 'Perching', 'Raptors', 'other'],
     },
     comments: [commentSchema],
-    ratings: [ratingSchema],
   },
 
   { timestamps: true }
