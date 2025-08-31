@@ -11,19 +11,6 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ratingSchema = new mongoose.Schema(
-  {
-    stars: {
-      type: Number,
-      min: 1,
-      max: 5,
-    },
-    rater: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-  },
-  { timestamps: true }
-
-);
-
 const sightingSchema = new mongoose.Schema(
   {
     title: {
@@ -41,7 +28,7 @@ const sightingSchema = new mongoose.Schema(
     image: {
       type: String,
       trim: true,
-      match: /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)$/i,
+      match: /^(?:https?:\/\/.*\.(?:png|jpg|jpeg|gif))?$/i,
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     category: {
@@ -50,7 +37,6 @@ const sightingSchema = new mongoose.Schema(
       enum: ['Waterfowl', 'Perching', 'Raptors', 'Other'],
     },
     comments: [commentSchema],
-    ratings: [ratingSchema],
   },
 
   { timestamps: true }
