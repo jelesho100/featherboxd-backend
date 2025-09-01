@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema(
@@ -10,6 +11,7 @@ const commentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 
 const likeSchema = new mongoose.Schema(
   {
@@ -33,10 +35,14 @@ const sightingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     image: {
       type: String,
       trim: true,
-      match: /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)$/i,
+      match: /^(?:https?:\/\/.*\.(?:png|jpg|jpeg|gif))?$/i,
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     category: {
@@ -45,13 +51,12 @@ const sightingSchema = new mongoose.Schema(
       enum: ['Waterfowl', 'Perching', 'Raptors', 'Other'],
     },
     comments: [commentSchema],
+
+    likeCount: { type: Number, default: 0 },
   },
 
   { timestamps: true }
 );
-
-
-
 
 
 
