@@ -19,7 +19,7 @@ router.get('/', verifyToken, async (req, res) => {
     const sightings = await Sighting.find({})
       .populate('author')
       .sort({ createdAt: 'desc' });
-    res.status(200).json(sightings);
+      res.status(200).json(sightings);
   } catch (error) {
     res.status(500).json(error);
   }

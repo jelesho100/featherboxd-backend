@@ -22,16 +22,20 @@ const sightingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     image: {
       type: String,
       trim: true,
-      match: /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)$/i,
+      match: /^(?:https?:\/\/.*\.(?:png|jpg|jpeg|gif))?$/i,
     },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     category: {
       type: String,
       required: false,
-      enum: ['Waterfowl', 'Perching', 'Raptors', 'other'],
+      enum: ['Waterfowl', 'Perching', 'Raptors', 'Other'],
     },
     comments: [commentSchema],
     likeCount: { type: Number, default: 0 },
