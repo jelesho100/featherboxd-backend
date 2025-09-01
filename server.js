@@ -11,6 +11,7 @@ const authRouter = require('./controllers/auth');
 const testJwtRouter = require('./controllers/test-jwt');
 const usersRouter = require('./controllers/users');
 const sightingsRouter = require('./controllers/sightings.js');
+const likesRouter = require('./controllers/likes');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
@@ -32,6 +33,7 @@ app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
 app.use('/users', usersRouter);
 app.use('/sightings', sightingsRouter);
+app.use('/likes', likesRouter);
 
 
 // Start the server and listen on port 3000

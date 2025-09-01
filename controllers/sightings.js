@@ -25,6 +25,17 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
+router.get('/mine', verifyToken, async (req, res) => {
+  try {
+    const sightings = await Sighting.find({ author: req.user._id })
+      .populate('author')
+      .sort({ createdAt: 'desc' });
+    res.status(200).json(sightings);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.get('/:sightingId', verifyToken, async (req, res) => {
   try {
     // populate author of sighting and comments

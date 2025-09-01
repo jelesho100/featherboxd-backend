@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema(
@@ -37,13 +38,11 @@ const sightingSchema = new mongoose.Schema(
       enum: ['Waterfowl', 'Perching', 'Raptors', 'Other'],
     },
     comments: [commentSchema],
+    likeCount: { type: Number, default: 0 },
   },
 
   { timestamps: true }
 );
-
-
-
 
 
 

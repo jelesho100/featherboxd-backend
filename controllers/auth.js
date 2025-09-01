@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const verifyToken = require('../middleware/verify-token')
+const Sighting = require('../models/sighting.js');
 
 
 const saltRounds = 12;
