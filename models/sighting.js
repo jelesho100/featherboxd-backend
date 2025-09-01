@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema(
@@ -9,18 +10,6 @@ const commentSchema = new mongoose.Schema(
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   },
   { timestamps: true }
-);
-
-const likeSchema = new mongoose.Schema(
-  {
-    like: {
-      type: Number,
-      
-    },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-  },
-  { timestamps: true }
-
 );
 
 const sightingSchema = new mongoose.Schema(
@@ -45,13 +34,11 @@ const sightingSchema = new mongoose.Schema(
       enum: ['Waterfowl', 'Perching', 'Raptors', 'other'],
     },
     comments: [commentSchema],
+    likeCount: { type: Number, default: 0 },
   },
 
   { timestamps: true }
 );
-
-
-
 
 
 
