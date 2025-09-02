@@ -1,6 +1,5 @@
 
 const mongoose = require('mongoose');
-const Sighting = require('./sighting.js')
 
 const likeSchema = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

@@ -59,7 +59,6 @@ router.post('/sign-in', async (req, res) => {
 });
 
 
-// verify route
 router.get('/verify', verifyToken, (req, res) => {
   res.json(req.user)
 })
