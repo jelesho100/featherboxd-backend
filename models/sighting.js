@@ -12,19 +12,6 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
-const likeSchema = new mongoose.Schema(
-  {
-    like: {
-      type: Number,
-      
-    },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-  },
-  { timestamps: true }
-
-);
-
 const sightingSchema = new mongoose.Schema(
   {
     title: {
